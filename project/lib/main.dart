@@ -19,7 +19,9 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      debugShowCheckedModeBanner: false,
+      // home: const HomePage(),
+      home: const LoginPage(),
     );
   }
 }

@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
           "Rose-Hulman",
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: const Color(0xff800000),
       ),
       body: Column(
         children: [

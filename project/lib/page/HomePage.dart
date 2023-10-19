@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
           "Rose-Hulman",
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: const Color(0xff800000),
       ),
       body: Row(
         children: [
