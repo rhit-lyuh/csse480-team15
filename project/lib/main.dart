@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/page/CourseFlowCharPage.dart';
 import 'package:project/page/HomePage.dart';
 import 'package:project/page/LoginPage.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       // home: const HomePage(),
-      home: const LoginPage(),
+      home: const CourseFlowChartPage(),
     );
   }
 }

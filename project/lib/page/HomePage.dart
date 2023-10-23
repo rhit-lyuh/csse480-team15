@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:side_navigation/side_navigation.dart';
+import 'package:project/component/list_page_drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,60 +9,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Widget> views = const [
-    Center(
-      child: Text('Home'),
-    ),
-    Center(
-      child: Text('Course'),
-    ),
-    Center(
-      child: Text('Course Flowchar'),
-    ),
-  ];
-  int selectedIndex = 0;
-
   /// The currently selecte
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
           "Rose-Hulman",
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xff800000),
       ),
-      body: Row(
-        children: [
-          SideNavigationBar(
-            selectedIndex: selectedIndex,
-            items: const [
-              SideNavigationBarItem(
-                icon: Icons.home,
-                label: 'Home',
-              ),
-              SideNavigationBarItem(
-                icon: Icons.apps,
-                label: 'Course',
-              ),
-              SideNavigationBarItem(
-                icon: Icons.table_chart,
-                label: 'Course Flowchar',
-              ),
-            ],
-            onTap: (index) {
-              setState(() {
-                selectedIndex = index;
-              });
-            },
-          ),
-          Expanded(
-            child: views.elementAt(selectedIndex),
-          )
-        ],
-      ),
+      drawer: const ListPageDrawer(),
     );
   }
 }
