@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:project/component/list_page_drawer.dart';
 import 'package:project/component/profile_card.dart';
+import 'package:project/component/schedule_chart.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class CoursesPage extends StatefulWidget {
+  const CoursesPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<CoursesPage> createState() => _CoursesPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _CoursesPageState extends State<CoursesPage> {
   /// The currently selecte
   @override
   Widget build(BuildContext context) {
@@ -18,20 +19,19 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
-          "Rose-Hulman",
+          "Current Schedule",
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xff800000),
       ),
       drawer: const ListPageDrawer(),
-      body: Center(
-        child: Column(
-          children: [
-            Padding(padding: EdgeInsets.all(40.0)),
-            ProfileCard()
-          ],
+      body: 
+        Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Center(
+            child: ScheduleChart()
+          ),
         ),
-      ),
     );
   }
 }

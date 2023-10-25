@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/page/CourseFlowCharPage.dart';
 import 'package:project/page/HomePage.dart';
+import 'package:project/page/courses_page.dart';
 
 class ListPageDrawer extends StatelessWidget {
   const ListPageDrawer({
@@ -37,7 +38,14 @@ class ListPageDrawer extends StatelessWidget {
           ListTile(
             title: const Text("Courses"),
             leading: const Icon(Icons.apps),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context, 
+                MaterialPageRoute(builder: (context) {
+                  return const CoursesPage();
+                })
+              );
+            },
           ),
           ListTile(
             title: const Text("Course Flowchart"),
