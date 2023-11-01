@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       // home: const HomePage(),
-      home: const CoursesPage(),
+      home: const CourseFlowChartPage(),
     );
   }
 }

@@ -39,12 +39,9 @@ class ListPageDrawer extends StatelessWidget {
             title: const Text("Courses"),
             leading: const Icon(Icons.apps),
             onTap: () {
-              Navigator.push(
-                context, 
-                MaterialPageRoute(builder: (context) {
-                  return const CoursesPage();
-                })
-              );
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const CoursesPage();
+              }));
             },
           ),
           ListTile(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project/component/list_page_drawer.dart';
-import 'package:project/component/profile_card.dart';
 import 'package:project/component/schedule_chart.dart';
 
 class CoursesPage extends StatefulWidget {
@@ -25,13 +24,10 @@ class _CoursesPageState extends State<CoursesPage> {
         backgroundColor: const Color(0xff800000),
       ),
       drawer: const ListPageDrawer(),
-      body: 
-        Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Center(
-            child: ScheduleChart()
-          ),
-        ),
+      body: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Center(child: ScheduleChart()),
+      ),
     );
   }
 }
