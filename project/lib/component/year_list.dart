@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:project/component/quarter_course_list.dart';
+import 'package:project/model/course.dart';
 
 class YearList extends StatelessWidget {
   final int year;
-  const YearList({super.key, required this.year});
+  final void Function({required Course course, required String quarter})
+      callBack;
+  final List<Course> courseList;
+  const YearList({
+    super.key,
+    required this.year,
+    required this.callBack,
+    required this.courseList,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,21 +32,69 @@ class YearList extends StatelessWidget {
         ),
         Row(
           children: [
-            QuarterCourseList(
-              season: "Fall",
-              year: year,
+            DragTarget(
+              builder: (
+                BuildContext context,
+                List<dynamic> accepted,
+                List<dynamic> rejected,
+              ) {
+                return QuarterCourseList(
+                  season: "Fall",
+                  year: year,
+                  courseList: courseList,
+                );
+              },
+              onAccept: (Course course) {
+                callBack(course: course, quarter: "Fall");
+              },
             ),
-            QuarterCourseList(
-              season: "Winter",
-              year: year,
+            DragTarget(
+              builder: (
+                BuildContext context,
+                List<dynamic> accepted,
+                List<dynamic> rejected,
+              ) {
+                return QuarterCourseList(
+                  season: "Winter",
+                  year: year,
+                  courseList: courseList,
+                );
+              },
+              onAccept: (Course course) {
+                callBack(course: course, quarter: "Winter");
+              },
             ),
-            QuarterCourseList(
-              season: "Spring",
-              year: year,
+            DragTarget(
+              builder: (
+                BuildContext context,
+                List<dynamic> accepted,
+                List<dynamic> rejected,
+              ) {
+                return QuarterCourseList(
+                  season: "Spring",
+                  year: year,
+                  courseList: courseList,
+                );
+              },
+              onAccept: (Course course) {
+                callBack(course: course, quarter: "Spring");
+              },
             ),
-            QuarterCourseList(
-              season: "Summer",
-              year: year,
+            DragTarget(
+              builder: (
+                BuildContext context,
+                List<dynamic> accepted,
+                List<dynamic> rejected,
+              ) {
+                return QuarterCourseList(
+                  season: "Summer",
+                  year: year,
+                  courseList: courseList,
+                );
+              },
+              onAccept: (Course c) {
+                callBack(course: c, quarter: "Summer");
+              },
             ),
           ],
         ),

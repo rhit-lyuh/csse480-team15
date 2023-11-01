@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project/component/list_page_drawer.dart';
 import 'package:project/component/year_list.dart';
 
+import '../model/course.dart';
+
 class CourseFlowChartPage extends StatefulWidget {
   const CourseFlowChartPage({super.key});
 
@@ -10,6 +12,43 @@ class CourseFlowChartPage extends StatefulWidget {
 }
 
 class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
+  List<Course> courseList = [];
+  late var newCourseNameEditingController = TextEditingController();
+
+  var c1 = Course(
+    name: "CSSE120",
+    credit: 4,
+    quarter: "Fall",
+    year: 1,
+  );
+  var c2 = Course(
+    name: "CSSE230",
+    credit: 4,
+    quarter: "Fall",
+    year: 2,
+  );
+  var c3 = Course(
+    name: "CSSE220",
+    credit: 4,
+    quarter: "Winter",
+    year: 1,
+  );
+  var c4 = Course(
+    name: "MA111",
+    credit: 4,
+    quarter: "Fall",
+    year: 1,
+  );
+
+  @override
+  void initState() {
+    courseList.add(c1);
+    courseList.add(c2);
+    courseList.add(c3);
+    courseList.add(c4);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,18 +61,29 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
         ),
         backgroundColor: const Color(0xff800000),
       ),
-      body: Container(
-        margin: const EdgeInsets.all(10.0),
-        child: const SingleChildScrollView(
+      body: Center(
+        child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                YearList(year: 1),
-                YearList(year: 2),
-                YearList(year: 3),
-                YearList(year: 4),
+                YearList(
+                  year: 1,
+                  courseList: courseList,
+                  callBack: ({
+                    required Course course,
+                    required String quarter,
+                  }) {
+                    setState(() {
+                      for (Course c in courseList) {
+                        if (c == course) {
+                          c.quarter = quarter;
+                        }
+                      }
+                    });
+                  },
+                ),
               ],
             ),
           ),
@@ -80,8 +130,9 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const TextField(
-                  decoration: InputDecoration(
+                TextField(
+                  controller: newCourseNameEditingController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Enter a course',
                   ),
@@ -134,6 +185,15 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
+                  setState(() {
+                    Course newCourse = Course(
+                      name: newCourseNameEditingController.text,
+                      credit: 4,
+                      quarter: dropdownValueQuarter,
+                      year: int.parse(dropdownValueYear),
+                    );
+                    courseList.add(newCourse);
+                  });
                 },
                 child: const Text(
                   "ADD A COURSE",

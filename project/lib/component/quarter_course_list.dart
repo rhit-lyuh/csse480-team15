@@ -5,43 +5,16 @@ import 'package:project/model/course.dart';
 class QuarterCourseList extends StatelessWidget {
   final String season;
   final int year;
+  final List<Course> courseList;
   const QuarterCourseList({
     super.key,
     required this.season,
     required this.year,
+    required this.courseList,
   });
 
   @override
   Widget build(BuildContext context) {
-    List<Course> courseList = [];
-    var c1 = Course(
-      name: "CSSE120",
-      credit: 4,
-      quarter: "Fall",
-      year: 1,
-    );
-    var c2 = Course(
-      name: "CSSE230",
-      credit: 4,
-      quarter: "Fall",
-      year: 2,
-    );
-    var c3 = Course(
-      name: "CSSE220",
-      credit: 4,
-      quarter: "Winter",
-      year: 1,
-    );
-    var c4 = Course(
-      name: "MA111",
-      credit: 4,
-      quarter: "Fall",
-      year: 1,
-    );
-    courseList.add(c1);
-    courseList.add(c2);
-    courseList.add(c3);
-    courseList.add(c4);
     return Column(
       children: [
         Container(
@@ -57,13 +30,35 @@ class QuarterCourseList extends StatelessWidget {
         ),
         Container(
           width: 100,
-          height: 400,
+          height: 500,
           decoration: BoxDecoration(border: Border.all(color: Colors.black)),
           margin: const EdgeInsets.only(bottom: 50.0),
           child: Column(
             children: courseList
                 .map((c) => season == c.quarter && year == c.year
-                    ? CourseCard(courseName: c.name, courseCredit: c.credit)
+                    ? LongPressDraggable<Course>(
+                        data: c,
+                        // dragAnchorStrategy: pointerDragAnchorStrategy,
+                        feedback: CourseCard(
+                          courseName: c.name,
+                          courseCredit: c.credit,
+                        ),
+                        childWhenDragging: const Card(
+                          margin: EdgeInsets.only(top: 20.0),
+                          color: Colors.yellow,
+                          clipBehavior: Clip.hardEdge,
+                        ),
+                        child: CourseCard(
+                          courseName: c.name,
+                          courseCredit: c.credit,
+                        ),
+                        onDragStarted: () {
+                          print(c.name);
+                        },
+                        onDragCompleted: () {
+                          print(c.quarter);
+                        },
+                      )
                     : const SizedBox())
                 .toList(),
           ),

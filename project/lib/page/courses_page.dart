@@ -24,7 +24,7 @@ class _CoursesPageState extends State<CoursesPage> {
         backgroundColor: const Color(0xff800000),
       ),
       drawer: const ListPageDrawer(),
-      body: Padding(
+      body: const Padding(
         padding: EdgeInsets.all(20.0),
         child: Center(child: ScheduleChart()),
       ),
