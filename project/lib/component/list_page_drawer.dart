@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project/managers/auth_manager.dart';
 import 'package:project/page/CourseFlowCharPage.dart';
 import 'package:project/page/HomePage.dart';
+import 'package:project/page/LoginPage.dart';
 import 'package:project/page/courses_page.dart';
 
 class ListPageDrawer extends StatelessWidget {
@@ -60,7 +62,13 @@ class ListPageDrawer extends StatelessWidget {
           ListTile(
             title: const Text("Log out"),
             leading: const Icon(Icons.logout),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) => const LoginPage()
+              ));
+              AuthManager.instance.signOut();
+            },
           ),
         ],
       ),
