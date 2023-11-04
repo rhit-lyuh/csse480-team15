@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:project/component/list_page_drawer.dart';
 import 'package:project/component/profile_card.dart';
+import 'package:project/managers/auth_manager.dart';
+import 'package:project/managers/student_data_manager.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,6 +14,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  StreamSubscription? _studentDataSubscription;
+  
+
+  @override
+  void initState() {
+    _studentDataSubscription = StudentDataDocumentManager.instance.startListening(
+      documentId: AuthManager.instance.uid, 
+      observer: () {
+        print("username: ${StudentDataDocumentManager.instance.displayName}");
+      }
+    );
+    super.initState();
+  }
+
   /// The currently selecte
   @override
   Widget build(BuildContext context) {
