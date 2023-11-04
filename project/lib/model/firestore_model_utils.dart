@@ -41,6 +41,18 @@ class FirestoreModelUtils {
           ? documentSnapshot.get(fieldName)
           : Timestamp.now();
 
+  static List<String> getStringListField(
+          DocumentSnapshot documentSnapshot, String fieldName) =>
+      containsField(documentSnapshot, fieldName)
+          ? documentSnapshot.get(fieldName)
+          : [];
+
+  static List<bool> getBoolListField(
+          DocumentSnapshot documentSnapshot, String fieldName) =>
+      containsField(documentSnapshot, fieldName)
+          ? documentSnapshot.get(fieldName)
+          : [];
+
   static bool containsField(
           DocumentSnapshot documentSnapshot, String fieldName) =>
       documentSnapshot.exists &&

@@ -12,7 +12,8 @@ class StudentDataDocumentManager {
 
   static final instance = StudentDataDocumentManager._privateConstructor();
   StudentDataDocumentManager._privateConstructor()
-      : _ref = FirebaseFirestore.instance.collection(kStudentDataCollectionPath);
+      : _ref =
+            FirebaseFirestore.instance.collection(kStudentDataCollectionPath);
 
   StreamSubscription startListening({
     required String documentId,
@@ -54,5 +55,4 @@ class StudentDataDocumentManager {
   bool get hasAcademic =>
       latestStudentData != null && latestStudentData!.academic.isNotEmpty;
   String get academic => latestStudentData?.academic ?? "";
-
 }

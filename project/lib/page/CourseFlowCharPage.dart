@@ -15,37 +15,8 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
   List<Course> courseList = [];
   late var newCourseNameEditingController = TextEditingController();
 
-  var c1 = Course(
-    name: "CSSE120",
-    credit: 4,
-    quarter: "Fall",
-    year: 1,
-  );
-  var c2 = Course(
-    name: "CSSE230",
-    credit: 4,
-    quarter: "Fall",
-    year: 2,
-  );
-  var c3 = Course(
-    name: "CSSE220",
-    credit: 4,
-    quarter: "Winter",
-    year: 1,
-  );
-  var c4 = Course(
-    name: "MA111",
-    credit: 4,
-    quarter: "Fall",
-    year: 1,
-  );
-
   @override
   void initState() {
-    courseList.add(c1);
-    courseList.add(c2);
-    courseList.add(c3);
-    courseList.add(c4);
     super.initState();
   }
 
@@ -76,11 +47,11 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
                     required String quarter,
                   }) {
                     setState(() {
-                      for (Course c in courseList) {
-                        if (c == course) {
-                          c.quarter = quarter;
-                        }
-                      }
+                      // for (Course c in courseList) {
+                      //   if (c == course) {
+                      //     c.quarter = quarter;
+                      //   }
+                      // }
                     });
                   },
                 ),
@@ -186,13 +157,13 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
                 onPressed: () {
                   Navigator.pop(context);
                   setState(() {
-                    Course newCourse = Course(
-                      name: newCourseNameEditingController.text,
-                      credit: 4,
-                      quarter: dropdownValueQuarter,
-                      year: int.parse(dropdownValueYear),
-                    );
-                    courseList.add(newCourse);
+                    // Course newCourse = Course(
+                    //   name: newCourseNameEditingController.text,
+                    //   credit: 4,
+                    //   quarter: dropdownValueQuarter,
+                    //   year: int.parse(dropdownValueYear),
+                    // );
+                    // courseList.add(newCourse);
                   });
                 },
                 child: const Text(

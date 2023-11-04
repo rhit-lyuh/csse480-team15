@@ -35,31 +35,33 @@ class QuarterCourseList extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 50.0),
           child: Column(
             children: courseList
-                .map((c) => season == c.quarter && year == c.year
-                    ? LongPressDraggable<Course>(
-                        data: c,
-                        // dragAnchorStrategy: pointerDragAnchorStrategy,
-                        feedback: CourseCard(
-                          courseName: c.name,
-                          courseCredit: c.credit,
-                        ),
-                        childWhenDragging: const Card(
-                          margin: EdgeInsets.only(top: 20.0),
-                          color: Colors.yellow,
-                          clipBehavior: Clip.hardEdge,
-                        ),
-                        child: CourseCard(
-                          courseName: c.name,
-                          courseCredit: c.credit,
-                        ),
-                        onDragStarted: () {
-                          print(c.name);
-                        },
-                        onDragCompleted: () {
-                          print(c.quarter);
-                        },
-                      )
-                    : const SizedBox())
+                .map((c) =>
+                        // season == c.quarter && year == c.year ?
+                        LongPressDraggable<Course>(
+                          data: c,
+                          // dragAnchorStrategy: pointerDragAnchorStrategy,
+                          feedback: CourseCard(
+                            courseName: c.name,
+                            courseCredit: c.credit,
+                          ),
+                          childWhenDragging: const Card(
+                            margin: EdgeInsets.only(top: 20.0),
+                            color: Colors.yellow,
+                            clipBehavior: Clip.hardEdge,
+                          ),
+                          child: CourseCard(
+                            courseName: c.name,
+                            courseCredit: c.credit,
+                          ),
+                          onDragStarted: () {
+                            print(c.name);
+                          },
+                          onDragCompleted: () {
+                            // print(c.quarter);
+                          },
+                        )
+                    // : const SizedBox()
+                    )
                 .toList(),
           ),
         ),
