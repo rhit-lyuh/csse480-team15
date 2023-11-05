@@ -23,7 +23,14 @@ class _HomePageState extends State<HomePage> {
     _studentDataSubscription = StudentDataDocumentManager.instance.startListening(
       documentId: AuthManager.instance.uid, 
       observer: () {
+        setState(() {
+          
+        });
         print("username: ${StudentDataDocumentManager.instance.displayName}");
+        print("username: ${StudentDataDocumentManager.instance.year}");
+        print("username: ${StudentDataDocumentManager.instance.academic}");
+        print("username: ${StudentDataDocumentManager.instance.major}");
+        print("username: ${StudentDataDocumentManager.instance.minor}");
       }
     );
     super.initState();
@@ -47,7 +54,13 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Padding(padding: EdgeInsets.all(40.0)),
-            ProfileCard()
+            ProfileCard(
+              username: StudentDataDocumentManager.instance.displayName, 
+              year: StudentDataDocumentManager.instance.year, 
+              major: StudentDataDocumentManager.instance.major, 
+              minor: StudentDataDocumentManager.instance.minor, 
+              academic: StudentDataDocumentManager.instance.academic,
+            )
           ],
         ),
       ),

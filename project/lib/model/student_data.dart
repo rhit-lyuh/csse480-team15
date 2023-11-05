@@ -3,10 +3,10 @@ import 'package:project/model/firestore_model_utils.dart';
 
 const kStudentDataCollectionPath = "Students";
 const kStudentDataDisplayName = "username";
-const kStudentDataMajor = "major";
-const kStudentDataMinor = "minor";
+const kStudentDataMajor = "Major";
+const kStudentDataMinor = "Minor";
 const kStudentDataYear = "year";
-const kStudentDataAcademic = "academic";
+const kStudentDataAcademic = "Academic";
 
 class StudentData {
   String? documentId;

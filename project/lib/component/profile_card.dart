@@ -2,7 +2,20 @@ import 'package:flutter/material.dart';
 
 class ProfileCard extends StatelessWidget {
 
-  const ProfileCard({super.key});
+  final String username;
+  final String year;
+  final String major;
+  final String minor;
+  final String academic;
+
+  const ProfileCard({
+    required this.username,
+    required this.year,
+    required this.major,
+    required this.minor,
+    required this.academic,
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,25 +28,25 @@ class ProfileCard extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "Welcome",
+                        "Welcome ${username}",
                         style: TextStyle(
                           fontSize: 40.0
                         ),
                       ),
                       ListTile(
-                        title: Text("Username:"),
+                        title: Text("Username: ${username}"),
                       ),
                       ListTile(
-                        title: Text("Year: "),
+                        title: Text("Year: ${year}"),
                       ),
                       ListTile(
-                        title: Text("Major:"),
+                        title: Text("Major: ${major}"),
                       ),
                       ListTile(
-                        title: Text("Minor:"),
+                        title: Text("Minor: ${minor}"),
                       ),
                       ListTile(
-                        title: Text("Academic:"),
+                        title: Text("Academic: ${academic}"),
                       ),
                     ]    
                   ),
