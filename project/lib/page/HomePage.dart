@@ -36,6 +36,12 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    StudentDataDocumentManager.instance.stopListening(_studentDataSubscription);
+    super.dispose();
+  }
+
   /// The currently selecte
   @override
   Widget build(BuildContext context) {
