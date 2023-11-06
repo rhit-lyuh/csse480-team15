@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:project/component/list_page_drawer.dart';
 import 'package:project/component/year_list.dart';
+import 'package:project/managers/auth_manager.dart';
 import 'package:project/managers/user_data_collection_maanager.dart';
 import 'package:project/managers/user_data_document_manager.dart';
 
@@ -65,15 +68,38 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
   ];
   late var newCourseNumberEditingController = TextEditingController();
   late var newCourseDepartmentEditingController = TextEditingController();
+  StreamSubscription? userDataSubscription;
+  UniqueKey? _loginUniqueKey;
+  UniqueKey? _logoutUniqueKey;
 
   @override
   void initState() {
-    if (UserDataDocumentManager.instance.hasCourseTaking) {
-      courseList = UserDataDocumentManager.instance.courseTaking;
-    } else {
-      UserDatasCollectionManager.instance.maybeAddNewUser(courseList);
-    }
+    userDataSubscription =
+        UserDatasCollectionManager.instance.startListening(() {
+      setState(() {});
+    });
+    _loginUniqueKey = AuthManager.instance.addLoginObserver(() {
+      if (UserDataDocumentManager.instance.hasCourseTaking) {
+        courseList = UserDataDocumentManager.instance.courseTaking;
+      } else {
+        UserDatasCollectionManager.instance.maybeAddNewUser(courseList);
+      }
+      setState(() {});
+    });
+    _logoutUniqueKey = AuthManager.instance.addLogoutObserver(() {
+      setState(() {});
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    UserDatasCollectionManager.instance.stopListening(userDataSubscription);
+    AuthManager.instance.removeObserver(_loginUniqueKey);
+    AuthManager.instance.removeObserver(_logoutUniqueKey);
+    newCourseNumberEditingController.dispose();
+    newCourseDepartmentEditingController.dispose();
+    super.dispose();
   }
 
   @override
@@ -171,20 +197,19 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
                                 break;
                               }
                             }
+                            UserDatasCollectionManager.instance
+                                .update(courseList);
                           });
-                          // UserDataDocumentManager.instance.update(courseList);
                         },
                         courseCardDeleteCallBack: ({required String course}) {
                           setState(() {
                             courseList.remove(course);
                           });
-                          // UserDataDocumentManager.instance.update(courseList);
                         },
                         courseCardUndoCallBack: ({required String course}) {
                           setState(() {
                             courseList.add(course);
                           });
-                          // UserDataDocumentManager.instance.update(courseList);
                         },
                       ),
                     ],

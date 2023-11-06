@@ -18,11 +18,13 @@ class UserDatasCollectionManager {
   // Not actually need after the Firebase UI Firestore refactor
   StreamSubscription startListening(Function observer) {
     return _ref.snapshots().listen((QuerySnapshot querySnapshot) {
-      latestUserDatas =
-          querySnapshot.docs.map((doc) => UserData.from(doc)).toList();
+      latestUserDatas = querySnapshot.docs.map((doc) {
+        print(doc.id);
+        return UserData.from(doc);
+      }).toList();
       observer();
     }, onError: (error) {
-      debugPrint("Error listening $error");
+      print("Error listening $error");
     });
   }
 
@@ -52,5 +54,19 @@ class UserDatasCollectionManager {
     _ref.doc(AuthManager.instance.uid).set(initialUserData).catchError((error) {
       print("Error setting the document $error");
     });
+  }
+
+  void update(List<String> courseList) {
+    for (int i = 0; i < latestUserDatas.length; i++) {
+      if (latestUserDatas[i].documentId == AuthManager.instance.uid) {
+        _ref.doc(latestUserDatas[i].documentId!).update({
+          kUserDataCourseTaking: courseList,
+        }).then((_) {
+          print("Finished updating the document");
+        }).catchError((error) {
+          print("There was an error adding the document $error");
+        });
+      }
+    }
   }
 }

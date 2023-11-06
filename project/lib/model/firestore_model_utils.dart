@@ -42,10 +42,15 @@ class FirestoreModelUtils {
           : Timestamp.now();
 
   static List<String> getStringListField(
-          DocumentSnapshot documentSnapshot, String fieldName) =>
-      containsField(documentSnapshot, fieldName)
-          ? documentSnapshot.get(fieldName)
-          : [];
+      DocumentSnapshot documentSnapshot, String fieldName) {
+    if (containsField(documentSnapshot, fieldName)) {
+      // List<String> temp = documentSnapshot.get(fieldName);
+      List<String> temp = List<String>.from(documentSnapshot.get(fieldName));
+      return temp;
+    }
+    return [];
+    // List<String> categoriesList = List<String>.from(map['categories'] as List);
+  }
 
   static List<bool> getBoolListField(
           DocumentSnapshot documentSnapshot, String fieldName) =>
