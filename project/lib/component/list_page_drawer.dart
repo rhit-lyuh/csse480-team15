@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/managers/auth_manager.dart';
-import 'package:project/page/CourseFlowCharPage.dart';
-import 'package:project/page/HomePage.dart';
-import 'package:project/page/LoginPage.dart';
+import 'package:project/page/course_flow_char_page.dart';
+import 'package:project/page/home_page.dart';
+import 'package:project/page/login_page.dart';
 import 'package:project/page/courses_page.dart';
 
 class ListPageDrawer extends StatelessWidget {
@@ -53,7 +53,9 @@ class ListPageDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return const CourseFlowChartPage();
+                  return const CourseFlowChartPage(
+                    yearnum: 1,
+                  );
                 }),
               );
             },
@@ -64,9 +66,8 @@ class ListPageDrawer extends StatelessWidget {
             leading: const Icon(Icons.logout),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) => const LoginPage()
-              ));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()));
               AuthManager.instance.signOut();
             },
           ),

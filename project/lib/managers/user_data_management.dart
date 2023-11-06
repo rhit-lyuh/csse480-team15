@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/model/user_data.dart';
 
@@ -36,4 +34,5 @@ class UserDataDocumentManager {
   String get major => latestUserData?.major ?? "";
   int get startYear => latestUserData?.startYear ?? -1;
   List<String> get courseTaking => latestUserData?.courseTaking ?? [];
+  bool get hasCourseTaking => latestUserData?.courseTaking == [];
 }

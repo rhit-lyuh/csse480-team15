@@ -1,6 +1,4 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:project/model/firestore_model_utils.dart';
 
 const kCourseSchedulesCollectionPath = "CourseSchedules";
@@ -56,58 +54,58 @@ const kCourseScheduleFri16 = "fri16";
 
 class CourseSchedule {
   String? documentId;
-  
-   String mon8;
-   String mon9;
-   String mon10;
-   String mon11;
-   String mon12;
-   String mon13;
-   String mon14;
-   String mon15;
-   String mon16;
 
-   String tue8;
-   String tue9;
-   String tue10;
-   String tue11;
-   String tue12;
-   String tue13;
-   String tue14;
-   String tue15;
-   String tue16;
- 
-   String wed8;
-   String wed9;
-   String wed10;
-   String wed11;
-   String wed12;
-   String wed13;
-   String wed14;
-   String wed15;
-   String wed16;
+  String mon8;
+  String mon9;
+  String mon10;
+  String mon11;
+  String mon12;
+  String mon13;
+  String mon14;
+  String mon15;
+  String mon16;
 
-   String thur8;
-   String thur9;
-   String thur10;
-   String thur11;
-   String thur12;
-   String thur13;
-   String thur14;
-   String thur15;
-   String thur16;
+  String tue8;
+  String tue9;
+  String tue10;
+  String tue11;
+  String tue12;
+  String tue13;
+  String tue14;
+  String tue15;
+  String tue16;
 
-   String fri8;
-   String fri9;
-   String fri10;
-   String fri11;
-   String fri12;
-   String fri13;
-   String fri14;
-   String fri15;
-   String fri16;
+  String wed8;
+  String wed9;
+  String wed10;
+  String wed11;
+  String wed12;
+  String wed13;
+  String wed14;
+  String wed15;
+  String wed16;
 
-   CourseSchedule({
+  String thur8;
+  String thur9;
+  String thur10;
+  String thur11;
+  String thur12;
+  String thur13;
+  String thur14;
+  String thur15;
+  String thur16;
+
+  String fri8;
+  String fri9;
+  String fri10;
+  String fri11;
+  String fri12;
+  String fri13;
+  String fri14;
+  String fri15;
+  String fri16;
+
+  CourseSchedule({
     this.documentId,
     required this.mon8,
     required this.mon9,
@@ -118,7 +116,6 @@ class CourseSchedule {
     required this.mon14,
     required this.mon15,
     required this.mon16,
-
     required this.tue8,
     required this.tue9,
     required this.tue10,
@@ -128,7 +125,6 @@ class CourseSchedule {
     required this.tue14,
     required this.tue15,
     required this.tue16,
-  
     required this.wed8,
     required this.wed9,
     required this.wed10,
@@ -138,7 +134,6 @@ class CourseSchedule {
     required this.wed14,
     required this.wed15,
     required this.wed16,
-
     required this.thur8,
     required this.thur9,
     required this.thur10,
@@ -148,7 +143,6 @@ class CourseSchedule {
     required this.thur14,
     required this.thur15,
     required this.thur16,
-
     required this.fri8,
     required this.fri9,
     required this.fri10,
@@ -160,59 +154,60 @@ class CourseSchedule {
     required this.fri16,
   });
 
-  CourseSchedule.from(DocumentSnapshot doc) :
-    this (
-      documentId: doc.id,
-      mon8: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon8),
-      mon9: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon9),
-      mon10: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon10),
-      mon11: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon11),
-      mon12: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon12),
-      mon13: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon13),
-      mon14: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon14),
-      mon15: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon15),
-      mon16: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon16),
-
-      tue8: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue8),
-      tue9: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue9),
-      tue10: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue10),
-      tue11: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue11),
-      tue12: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue12),
-      tue13: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue13),
-      tue14: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue14),
-      tue15: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue15),
-      tue16: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue16),
-
-      wed8: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed8),
-      wed9: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed9),
-      wed10: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed10),
-      wed11: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed11),
-      wed12: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed12),
-      wed13: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed13),
-      wed14: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed14),
-      wed15: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed15),
-      wed16: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed16),
-
-      thur8: FirestoreModelUtils.getStringField(doc, kCourseScheduleThur8),
-      thur9: FirestoreModelUtils.getStringField(doc, kCourseScheduleThur9),
-      thur10: FirestoreModelUtils.getStringField(doc, kCourseScheduleThur10),
-      thur11: FirestoreModelUtils.getStringField(doc, kCourseScheduleThur11),
-      thur12: FirestoreModelUtils.getStringField(doc, kCourseScheduleThur12),
-      thur13: FirestoreModelUtils.getStringField(doc, kCourseScheduleThur13),
-      thur14: FirestoreModelUtils.getStringField(doc, kCourseScheduleThur14),
-      thur15: FirestoreModelUtils.getStringField(doc, kCourseScheduleThur15),
-      thur16: FirestoreModelUtils.getStringField(doc, kCourseScheduleThur16),
-
-      fri8: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri8),
-      fri9: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri9),
-      fri10: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri10),
-      fri11: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri11),
-      fri12: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri12),
-      fri13: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri13),
-      fri14: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri14),
-      fri15: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri15),
-      fri16: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri16),
-
-    );
-
+  CourseSchedule.from(DocumentSnapshot doc)
+      : this(
+          documentId: doc.id,
+          mon8: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon8),
+          mon9: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon9),
+          mon10: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon10),
+          mon11: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon11),
+          mon12: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon12),
+          mon13: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon13),
+          mon14: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon14),
+          mon15: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon15),
+          mon16: FirestoreModelUtils.getStringField(doc, kCourseScheduleMon16),
+          tue8: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue8),
+          tue9: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue9),
+          tue10: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue10),
+          tue11: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue11),
+          tue12: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue12),
+          tue13: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue13),
+          tue14: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue14),
+          tue15: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue15),
+          tue16: FirestoreModelUtils.getStringField(doc, kCourseScheduleTue16),
+          wed8: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed8),
+          wed9: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed9),
+          wed10: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed10),
+          wed11: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed11),
+          wed12: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed12),
+          wed13: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed13),
+          wed14: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed14),
+          wed15: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed15),
+          wed16: FirestoreModelUtils.getStringField(doc, kCourseScheduleWed16),
+          thur8: FirestoreModelUtils.getStringField(doc, kCourseScheduleThur8),
+          thur9: FirestoreModelUtils.getStringField(doc, kCourseScheduleThur9),
+          thur10:
+              FirestoreModelUtils.getStringField(doc, kCourseScheduleThur10),
+          thur11:
+              FirestoreModelUtils.getStringField(doc, kCourseScheduleThur11),
+          thur12:
+              FirestoreModelUtils.getStringField(doc, kCourseScheduleThur12),
+          thur13:
+              FirestoreModelUtils.getStringField(doc, kCourseScheduleThur13),
+          thur14:
+              FirestoreModelUtils.getStringField(doc, kCourseScheduleThur14),
+          thur15:
+              FirestoreModelUtils.getStringField(doc, kCourseScheduleThur15),
+          thur16:
+              FirestoreModelUtils.getStringField(doc, kCourseScheduleThur16),
+          fri8: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri8),
+          fri9: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri9),
+          fri10: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri10),
+          fri11: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri11),
+          fri12: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri12),
+          fri13: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri13),
+          fri14: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri14),
+          fri15: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri15),
+          fri16: FirestoreModelUtils.getStringField(doc, kCourseScheduleFri16),
+        );
 }

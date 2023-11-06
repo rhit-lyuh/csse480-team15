@@ -2,10 +2,9 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:project/component/login_button.dart';
 import 'package:project/managers/auth_manager.dart';
-import 'package:project/page/HomePage.dart';
+import 'package:project/page/home_page.dart';
 
 class LoginPage extends StatefulWidget {
-  
   const LoginPage({super.key});
 
   @override
@@ -13,7 +12,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
 
@@ -28,7 +26,6 @@ class _LoginPageState extends State<LoginPage> {
     _loginUniqueKey = AuthManager.instance.addLoginObserver(() {
       print("called my login observer");
       Navigator.of(context).popUntil((route) => route.isFirst);
-
     });
     super.initState();
   }
@@ -74,7 +71,9 @@ class _LoginPageState extends State<LoginPage> {
               child: TextFormField(
                 controller: emailTextController,
                 validator: (value) {
-                  if (value == null || value.isEmpty || !EmailValidator.validate(value)) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      !EmailValidator.validate(value)) {
                     return "Please enter a valid email address";
                   }
                 },
@@ -109,26 +108,21 @@ class _LoginPageState extends State<LoginPage> {
               clickCallBack: () {
                 if (_formkey.currentState!.validate()) {
                   AuthManager.instance.loginExistingUserWithEmailPassword(
-                    context: context, 
-                    emailAddress: emailTextController.text, 
-                    password: passwordTextController.text
-                  );
-                  setState(() {
-                    
-                  });
+                      context: context,
+                      emailAddress: emailTextController.text,
+                      password: passwordTextController.text);
+                  setState(() {});
                   if (AuthManager.instance.isSignedIn) {
                     Navigator.of(context).pop();
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const HomePage()
-                    ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()));
                   }
-                  
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Invalid form entry"))
-                  );
+                      const SnackBar(content: Text("Invalid form entry")));
                 }
-                
               },
             ),
           ],

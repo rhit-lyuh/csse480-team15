@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:project/component/course_card.dart';
-import 'package:project/model/course.dart';
 
 class QuarterCourseList extends StatelessWidget {
   final String season;
   final int year;
-  final List<Course> courseList;
+  final List<String> courseList;
   const QuarterCourseList({
     super.key,
     required this.season,
@@ -35,14 +34,32 @@ class QuarterCourseList extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 50.0),
           child: Column(
             children: courseList
-                .map((c) =>
-                        // season == c.quarter && year == c.year ?
-                        LongPressDraggable<Course>(
+                .map(
+                  (c) => ((season == "Fall" &&
+                                  int.parse(_splitCourseQuarter(c)[1]!)
+                                          .remainder(3) ==
+                                      1) ||
+                              (season == "Winter" &&
+                                  int.parse(_splitCourseQuarter(c)[1]!)
+                                          .remainder(3) ==
+                                      2) ||
+                              (season == "Spring" &&
+                                  int.parse(_splitCourseQuarter(c)[1]!)
+                                          .remainder(3) ==
+                                      0)) &&
+                          year ==
+                              (int.parse(_splitCourseQuarter(c)[1]!)
+                                          .remainder(3) !=
+                                      0
+                                  ? (int.parse(_splitCourseQuarter(c)[1]!) / 3)
+                                          .floor() +
+                                      1
+                                  : (int.parse(_splitCourseQuarter(c)[1]!) / 3))
+                      ? LongPressDraggable<String>(
                           data: c,
                           // dragAnchorStrategy: pointerDragAnchorStrategy,
                           feedback: CourseCard(
-                            courseName: c.name,
-                            courseCredit: c.credit,
+                            courseNum: _splitCourseQuarter(c)[0]!,
                           ),
                           childWhenDragging: const Card(
                             margin: EdgeInsets.only(top: 20.0),
@@ -50,22 +67,29 @@ class QuarterCourseList extends StatelessWidget {
                             clipBehavior: Clip.hardEdge,
                           ),
                           child: CourseCard(
-                            courseName: c.name,
-                            courseCredit: c.credit,
+                            courseNum: _splitCourseQuarter(c)[0]!,
                           ),
                           onDragStarted: () {
-                            print(c.name);
+                            print("Drag started: $c");
                           },
                           onDragCompleted: () {
-                            // print(c.quarter);
+                            print("Drag complete $c");
                           },
                         )
-                    // : const SizedBox()
-                    )
+                      : const SizedBox(),
+                )
                 .toList(),
           ),
         ),
       ],
     );
+  }
+
+  Map<int, String> _splitCourseQuarter(String word) {
+    var split = word.split(',');
+    Map<int, String> values = {
+      for (int i = 0; i < split.length; i++) i: split[i]
+    };
+    return values;
   }
 }

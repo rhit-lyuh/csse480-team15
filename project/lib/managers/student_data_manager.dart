@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:project/managers/auth_manager.dart';
 import 'package:project/model/student_data.dart';
 
 class StudentDataDocumentManager {

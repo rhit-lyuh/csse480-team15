@@ -5,7 +5,6 @@ import 'package:project/component/list_page_drawer.dart';
 import 'package:project/component/schedule_chart.dart';
 import 'package:project/managers/auth_manager.dart';
 import 'package:project/managers/course_schedule_data_manager.dart';
-import 'package:project/managers/student_data_manager.dart';
 
 class CoursesPage extends StatefulWidget {
   const CoursesPage({super.key});
@@ -15,25 +14,23 @@ class CoursesPage extends StatefulWidget {
 }
 
 class _CoursesPageState extends State<CoursesPage> {
-  
   StreamSubscription? _courseScheduleDataSubscription;
 
   @override
   void initState() {
-    _courseScheduleDataSubscription = CoursescheduleDataDocumentManager.instance.startListening(
-      dcoumentId: AuthManager.instance.uid, 
-      observer: () {
-        setState(() {
-          
-        });
-      }
-    );
+    _courseScheduleDataSubscription =
+        CoursescheduleDataDocumentManager.instance.startListening(
+            dcoumentId: AuthManager.instance.uid,
+            observer: () {
+              setState(() {});
+            });
     super.initState();
   }
 
   @override
   void dispose() {
-    CoursescheduleDataDocumentManager.instance.stopListening(_courseScheduleDataSubscription);
+    CoursescheduleDataDocumentManager.instance
+        .stopListening(_courseScheduleDataSubscription);
     super.dispose();
   }
 
@@ -53,7 +50,8 @@ class _CoursesPageState extends State<CoursesPage> {
       drawer: const ListPageDrawer(),
       body: Padding(
         padding: EdgeInsets.all(20.0),
-        child: Center(child: ScheduleChart(
+        child: Center(
+            child: ScheduleChart(
           mon8: CoursescheduleDataDocumentManager.instance.mon8,
           mon9: CoursescheduleDataDocumentManager.instance.mon9,
           mon10: CoursescheduleDataDocumentManager.instance.mon10,
@@ -63,7 +61,6 @@ class _CoursesPageState extends State<CoursesPage> {
           mon14: CoursescheduleDataDocumentManager.instance.mon14,
           mon15: CoursescheduleDataDocumentManager.instance.mon15,
           mon16: CoursescheduleDataDocumentManager.instance.mon16,
-          
           tue8: CoursescheduleDataDocumentManager.instance.tue8,
           tue9: CoursescheduleDataDocumentManager.instance.tue9,
           tue10: CoursescheduleDataDocumentManager.instance.tue10,
@@ -73,7 +70,6 @@ class _CoursesPageState extends State<CoursesPage> {
           tue14: CoursescheduleDataDocumentManager.instance.tue14,
           tue15: CoursescheduleDataDocumentManager.instance.tue15,
           tue16: CoursescheduleDataDocumentManager.instance.tue16,
-
           wed8: CoursescheduleDataDocumentManager.instance.wed8,
           wed9: CoursescheduleDataDocumentManager.instance.wed9,
           wed10: CoursescheduleDataDocumentManager.instance.wed10,
@@ -83,7 +79,6 @@ class _CoursesPageState extends State<CoursesPage> {
           wed14: CoursescheduleDataDocumentManager.instance.wed14,
           wed15: CoursescheduleDataDocumentManager.instance.wed15,
           wed16: CoursescheduleDataDocumentManager.instance.wed16,
-
           thur8: CoursescheduleDataDocumentManager.instance.thur8,
           thur9: CoursescheduleDataDocumentManager.instance.thur9,
           thur10: CoursescheduleDataDocumentManager.instance.thur10,
@@ -93,7 +88,6 @@ class _CoursesPageState extends State<CoursesPage> {
           thur14: CoursescheduleDataDocumentManager.instance.thur14,
           thur15: CoursescheduleDataDocumentManager.instance.thur15,
           thur16: CoursescheduleDataDocumentManager.instance.thur16,
-
           fri8: CoursescheduleDataDocumentManager.instance.fri8,
           fri9: CoursescheduleDataDocumentManager.instance.fri9,
           fri10: CoursescheduleDataDocumentManager.instance.fri10,
@@ -103,7 +97,6 @@ class _CoursesPageState extends State<CoursesPage> {
           fri14: CoursescheduleDataDocumentManager.instance.fri14,
           fri15: CoursescheduleDataDocumentManager.instance.fri15,
           fri16: CoursescheduleDataDocumentManager.instance.fri16,
-
         )),
       ),
     );

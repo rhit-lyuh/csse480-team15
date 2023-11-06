@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project/component/quarter_course_list.dart';
-import 'package:project/model/course.dart';
 
 class YearList extends StatelessWidget {
   final int year;
-  final void Function({required Course course, required String quarter})
+  final void Function({required String course, required String quarter})
       callBack;
-  final List<Course> courseList;
+  final List<String> courseList;
   const YearList({
     super.key,
     required this.year,
@@ -20,7 +19,7 @@ class YearList extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.only(top: 50.0),
-          width: 400,
+          width: 300,
           height: 80,
           decoration: BoxDecoration(border: Border.all(color: Colors.black)),
           child: Center(
@@ -44,7 +43,7 @@ class YearList extends StatelessWidget {
                   courseList: courseList,
                 );
               },
-              onAccept: (Course course) {
+              onAccept: (String course) {
                 callBack(course: course, quarter: "Fall");
               },
             ),
@@ -60,7 +59,7 @@ class YearList extends StatelessWidget {
                   courseList: courseList,
                 );
               },
-              onAccept: (Course course) {
+              onAccept: (String course) {
                 callBack(course: course, quarter: "Winter");
               },
             ),
@@ -76,29 +75,21 @@ class YearList extends StatelessWidget {
                   courseList: courseList,
                 );
               },
-              onAccept: (Course course) {
+              onAccept: (String course) {
                 callBack(course: course, quarter: "Spring");
-              },
-            ),
-            DragTarget(
-              builder: (
-                BuildContext context,
-                List<dynamic> accepted,
-                List<dynamic> rejected,
-              ) {
-                return QuarterCourseList(
-                  season: "Summer",
-                  year: year,
-                  courseList: courseList,
-                );
-              },
-              onAccept: (Course c) {
-                callBack(course: c, quarter: "Summer");
               },
             ),
           ],
         ),
       ],
     );
+  }
+
+  Map<int, String> _splitCourseQuarter(String word) {
+    var split = word.split(',');
+    Map<int, String> values = {
+      for (int i = 0; i < split.length; i++) i: split[i]
+    };
+    return values;
   }
 }
