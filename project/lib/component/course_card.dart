@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 
 class CourseCard extends StatelessWidget {
   final String courseNum;
-  const CourseCard({
-    super.key,
-    required this.courseNum,
-  });
+  final String courseString;
+  final void Function({required String course}) courseCardDeleteCallBack;
+  final void Function({required String course}) courseCardUndoCallBack;
+  const CourseCard(
+      {super.key,
+      required this.courseNum,
+      required this.courseCardDeleteCallBack,
+      required this.courseString,
+      required this.courseCardUndoCallBack});
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +83,19 @@ class CourseCard extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () {
+                              String temp = courseString;
+
+                              courseCardDeleteCallBack(course: courseString);
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: const Text("Quote Deleted"),
+                                action: SnackBarAction(
+                                  label: "Undo",
+                                  onPressed: () {
+                                    courseCardUndoCallBack(course: temp);
+                                  },
+                                ),
+                              ));
                               Navigator.pop(context);
                             },
                             child: const Text(

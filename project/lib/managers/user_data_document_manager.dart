@@ -31,6 +31,16 @@ class UserDataDocumentManager {
     latestUserData = null;
   }
 
+  void update(List<String> courseList) {
+    _ref.doc(latestUserData!.documentId!).update({
+      kUserDataCourseTaking: courseList,
+    }).then((_) {
+      print("Finished updating the document");
+    }).catchError((error) {
+      print("There was an error adding the document $error");
+    });
+  }
+
   String get major => latestUserData?.major ?? "";
   int get startYear => latestUserData?.startYear ?? -1;
   List<String> get courseTaking => latestUserData?.courseTaking ?? [];

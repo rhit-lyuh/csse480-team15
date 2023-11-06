@@ -5,11 +5,15 @@ class QuarterCourseList extends StatelessWidget {
   final String season;
   final int year;
   final List<String> courseList;
+  final void Function({required String course}) courseCardDeleteCallBack;
+  final void Function({required String course}) courseCardUndoCallBack;
   const QuarterCourseList({
     super.key,
     required this.season,
     required this.year,
     required this.courseList,
+    required this.courseCardDeleteCallBack,
+    required this.courseCardUndoCallBack,
   });
 
   @override
@@ -60,6 +64,9 @@ class QuarterCourseList extends StatelessWidget {
                           // dragAnchorStrategy: pointerDragAnchorStrategy,
                           feedback: CourseCard(
                             courseNum: _splitCourseQuarter(c)[0]!,
+                            courseString: c,
+                            courseCardDeleteCallBack: courseCardDeleteCallBack,
+                            courseCardUndoCallBack: courseCardUndoCallBack,
                           ),
                           childWhenDragging: const Card(
                             margin: EdgeInsets.only(top: 20.0),
@@ -68,6 +75,9 @@ class QuarterCourseList extends StatelessWidget {
                           ),
                           child: CourseCard(
                             courseNum: _splitCourseQuarter(c)[0]!,
+                            courseString: c,
+                            courseCardDeleteCallBack: courseCardDeleteCallBack,
+                            courseCardUndoCallBack: courseCardUndoCallBack,
                           ),
                           onDragStarted: () {
                             print("Drag started: $c");

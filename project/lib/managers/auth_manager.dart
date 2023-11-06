@@ -142,9 +142,4 @@ class AuthManager {
       _user!.displayName!.isNotEmpty;
 
   String get displayName => _user?.displayName ?? "";
-
-  bool get hasImageUrl =>
-      _user != null && _user!.photoURL != null && _user!.photoURL!.isNotEmpty;
-
-  String get imageUrl => _user?.photoURL ?? "";
 }

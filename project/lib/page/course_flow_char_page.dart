@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/component/list_page_drawer.dart';
 import 'package:project/component/year_list.dart';
-import 'package:project/managers/user_data_management.dart';
+import 'package:project/managers/user_data_collection_maanager.dart';
+import 'package:project/managers/user_data_document_manager.dart';
 
 class CourseFlowChartPage extends StatefulWidget {
   final int yearnum;
@@ -12,63 +13,66 @@ class CourseFlowChartPage extends StatefulWidget {
 }
 
 class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
-  List<String> courseList = UserDataDocumentManager.instance.hasCourseTaking
-      ? UserDataDocumentManager.instance.courseTaking
-      : [
-          'PH 111,1',
-          'MA 111,1',
-          'CSSE 120,1',
-          'RH 131,1',
-          'RHIT 100,1',
-          'PH 112,2',
-          'MA 112,2',
-          'CSSE 220,2',
-          'HSSA,2',
-          'SCI,3',
-          'MA 113,3',
-          'ECE 233,3',
-          'CSSE 132,3',
-          'MA 221,4',
-          'MA 276,4',
-          'CSSE 280,4',
-          'CSSE 232,4',
-          'MA 374,5',
-          'CSSE 230,5',
-          'CSSE 332,5',
-          'RH 330,5',
-          'MA 381,6',
-          'CSSE 333,6',
-          'ECE 332,6',
-          'HSSA,6',
-          'CHEM 111,7',
-          'CSSE 304,7',
-          'CSSE 371,7',
-          'HSSA,7',
-          'CSSE,8',
-          'CSSE 473,8',
-          'CSSE 374,8',
-          'HSSA,8',
-          'FREE,9',
-          'FREE,9',
-          'CSSE 474,9',
-          'HSSA,9',
-          'CSSE,10',
-          'FREE,10',
-          'CSSE 497,10',
-          'HSSA,10',
-          'CSSE,11',
-          'TECH,11',
-          'CSSE 498,11',
-          'HSSA,11',
-          'FREE,12',
-          'FREE,12',
-          'CSSE 499,12'
-        ];
+  List<String> courseList = [
+    'PH 111,1',
+    'MA 111,1',
+    'CSSE 120,1',
+    'RH 131,1',
+    'RHIT 100,1',
+    'PH 112,2',
+    'MA 112,2',
+    'CSSE 220,2',
+    'HSSA,2',
+    'SCI,3',
+    'MA 113,3',
+    'ECE 233,3',
+    'CSSE 132,3',
+    'MA 221,4',
+    'MA 276,4',
+    'CSSE 280,4',
+    'CSSE 232,4',
+    'MA 374,5',
+    'CSSE 230,5',
+    'CSSE 332,5',
+    'RH 330,5',
+    'MA 381,6',
+    'CSSE 333,6',
+    'ECE 332,6',
+    'HSSA,6',
+    'CHEM 111,7',
+    'CSSE 304,7',
+    'CSSE 371,7',
+    'HSSA,7',
+    'CSSE,8',
+    'CSSE 473,8',
+    'CSSE 374,8',
+    'HSSA,8',
+    'FREE,9',
+    'FREE,9',
+    'CSSE 474,9',
+    'HSSA,9',
+    'CSSE,10',
+    'FREE,10',
+    'CSSE 497,10',
+    'HSSA,10',
+    'CSSE,11',
+    'TECH,11',
+    'CSSE 498,11',
+    'HSSA,11',
+    'FREE,12',
+    'FREE,12',
+    'CSSE 499,12'
+  ];
   late var newCourseNumberEditingController = TextEditingController();
   late var newCourseDepartmentEditingController = TextEditingController();
 
   @override
   void initState() {
+    if (UserDataDocumentManager.instance.hasCourseTaking) {
+      courseList = UserDataDocumentManager.instance.courseTaking;
+    } else {
+      UserDatasCollectionManager.instance.maybeAddNewUser(courseList);
+    }
     super.initState();
   }
 
@@ -168,6 +172,19 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
                               }
                             }
                           });
+                          // UserDataDocumentManager.instance.update(courseList);
+                        },
+                        courseCardDeleteCallBack: ({required String course}) {
+                          setState(() {
+                            courseList.remove(course);
+                          });
+                          // UserDataDocumentManager.instance.update(courseList);
+                        },
+                        courseCardUndoCallBack: ({required String course}) {
+                          setState(() {
+                            courseList.add(course);
+                          });
+                          // UserDataDocumentManager.instance.update(courseList);
                         },
                       ),
                     ],
@@ -199,6 +216,7 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
       "1",
       "2",
       "3",
+      '4',
     ];
     List<String> quarterList = [
       "Select a Quarter",
@@ -296,6 +314,9 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
                     String courseToAdd =
                         "${newCourseDepartmentEditingController.text.toUpperCase()} ${newCourseNumberEditingController.text},$quarter";
                     courseList.add(courseToAdd);
+                    UserDataDocumentManager.instance.update(courseList);
+                    newCourseDepartmentEditingController.text = '';
+                    newCourseNumberEditingController.text = '';
                   });
                 },
                 child: const Text(

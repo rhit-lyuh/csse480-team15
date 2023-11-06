@@ -5,13 +5,16 @@ class YearList extends StatelessWidget {
   final int year;
   final void Function({required String course, required String quarter})
       callBack;
+  final void Function({required String course}) courseCardDeleteCallBack;
+  final void Function({required String course}) courseCardUndoCallBack;
   final List<String> courseList;
-  const YearList({
-    super.key,
-    required this.year,
-    required this.callBack,
-    required this.courseList,
-  });
+  const YearList(
+      {super.key,
+      required this.year,
+      required this.callBack,
+      required this.courseList,
+      required this.courseCardDeleteCallBack,
+      required this.courseCardUndoCallBack});
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +44,8 @@ class YearList extends StatelessWidget {
                   season: "Fall",
                   year: year,
                   courseList: courseList,
+                  courseCardDeleteCallBack: courseCardDeleteCallBack,
+                  courseCardUndoCallBack: courseCardUndoCallBack,
                 );
               },
               onAccept: (String course) {
@@ -57,6 +62,8 @@ class YearList extends StatelessWidget {
                   season: "Winter",
                   year: year,
                   courseList: courseList,
+                  courseCardDeleteCallBack: courseCardDeleteCallBack,
+                  courseCardUndoCallBack: courseCardUndoCallBack,
                 );
               },
               onAccept: (String course) {
@@ -73,6 +80,8 @@ class YearList extends StatelessWidget {
                   season: "Spring",
                   year: year,
                   courseList: courseList,
+                  courseCardDeleteCallBack: courseCardDeleteCallBack,
+                  courseCardUndoCallBack: courseCardUndoCallBack,
                 );
               },
               onAccept: (String course) {
