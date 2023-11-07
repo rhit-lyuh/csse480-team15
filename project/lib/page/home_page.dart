@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:project/component/list_page_drawer.dart';
@@ -6,6 +7,7 @@ import 'package:project/component/profile_card.dart';
 import 'package:project/component/profile_dialog.dart';
 import 'package:project/managers/auth_manager.dart';
 import 'package:project/managers/student_data_manager.dart';
+import 'package:project/model/student_data.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +19,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   StreamSubscription? _studentDataSubscription;
+  UniqueKey? _loginUniqueKey;
+  UniqueKey? _logoutUniqueKey;
   
   final usernameTextController = TextEditingController();
   final yearTextController = TextEditingController();
@@ -37,14 +41,35 @@ class _HomePageState extends State<HomePage> {
         print("academic: ${StudentDataDocumentManager.instance.academic}");
         print("major: ${StudentDataDocumentManager.instance.major}");
         print("minor: ${StudentDataDocumentManager.instance.minor}");
+
+        
+
       }
     );
+
+    _loginUniqueKey = AuthManager.instance.addLoginObserver(() {
+            StudentDataDocumentManager.instance.maybeAddNewUser();
+          setState(() {});
+        });
+
+    _logoutUniqueKey = AuthManager.instance.addLogoutObserver(() {
+      setState(() {
+            
+      });
+    });
     super.initState();
   }
 
   @override
   void dispose() {
+    usernameTextController.dispose();
+    yearTextController.dispose();
+    majorTextController.dispose();
+    minorTextController.dispose();
+    academicStandingtextController.dispose();
     StudentDataDocumentManager.instance.stopListening(_studentDataSubscription);
+    AuthManager.instance.removeObserver(_loginUniqueKey);
+    AuthManager.instance.removeObserver(_logoutUniqueKey);
     super.dispose();
   }
 

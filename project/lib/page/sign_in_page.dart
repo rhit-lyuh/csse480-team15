@@ -111,6 +111,7 @@ class _SignInPageState extends State<SignInPage> {
                       context: context,
                       emailAddress: emailTextController.text,
                       password: passwordTextController.text);
+                  // StudentDataDocumentManager.instance.createNeswUser();
                   setState(() {});
                   
                   if (AuthManager.instance.isSignedIn) {

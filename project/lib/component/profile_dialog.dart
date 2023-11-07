@@ -207,7 +207,7 @@ class ProfileDialog extends StatelessWidget {
               controller: academicStandingtextController,
               enableFilter: true,
               leadingIcon: const Icon(Icons.search),
-              label: const Text('Minor'),
+              label: const Text('Academic Standing'),
               dropdownMenuEntries: academicStandingList.map<DropdownMenuEntry<String>>((String value) {
                 return DropdownMenuEntry(
                   value: value, 

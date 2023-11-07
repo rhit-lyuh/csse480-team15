@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project/managers/auth_manager.dart';
 import 'package:project/model/student_data.dart';
 
 class StudentDataDocumentManager {
@@ -28,6 +29,22 @@ class StudentDataDocumentManager {
   void stopListening(StreamSubscription? subscription) {
     subscription?.cancel();
   }
+
+  void createNewUser() {
+    Map<String, Object> initialUserData = {
+      kStudentDataYear: "",
+      kStudentDataMajor: "",
+      kStudentDataDisplayName: "",
+      kStudentDataAcademic: "",
+      kStudentDataMinor: "",
+    };
+
+  
+  
+  _ref.doc(AuthManager.instance.uid).set(initialUserData).catchError((error) {
+    print("Error setting the document $error");
+  });
+  }
   
   void update({
     required String username, 
@@ -41,6 +58,7 @@ class StudentDataDocumentManager {
         kStudentDataMajor: major,
         kStudentDataMinor: minor,
         kStudentDataYear: year,
+        kStudentDataAcademic: academic
       };
       _ref.doc(latestStudentData!.documentId!).update(updateMap).then((_) {
       print("Finished updating the document");
@@ -52,6 +70,19 @@ class StudentDataDocumentManager {
   void clearLatest() {
     latestStudentData = null;
   }
+
+  void maybeAddNewUser() async {
+      DocumentSnapshot snapshot = await _ref.doc(AuthManager.instance.uid).get();
+      if (snapshot.exists) {
+        print("This StudentData exist do nothing");
+      } else {
+        print("This is a new user. TODO: Make a doc");
+
+        if (AuthManager.instance.uid.isNotEmpty) {
+          createNewUser();
+        }
+      }
+    }
 
   bool get hasDisplayName =>
       latestStudentData != null && latestStudentData!.username.isNotEmpty;
@@ -72,4 +103,6 @@ class StudentDataDocumentManager {
   bool get hasAcademic =>
       latestStudentData != null && latestStudentData!.academic.isNotEmpty;
   String get academic => latestStudentData?.academic ?? "";
+
+  
 }
