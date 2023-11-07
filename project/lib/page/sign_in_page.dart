@@ -2,17 +2,17 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:project/component/login_button.dart';
 import 'package:project/managers/auth_manager.dart';
+import 'package:project/managers/student_data_manager.dart';
 import 'package:project/page/home_page.dart';
-import 'package:project/page/sign_in_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignInPageState extends State<SignInPage> {
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
 
@@ -22,8 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     // TODO: implement initState
-    emailTextController.text = "tba@rose-hulman.edu";
-    passwordTextController.text = "123456";
+
     _loginUniqueKey = AuthManager.instance.addLoginObserver(() {
       print("called my login observer");
       Navigator.of(context).popUntil((route) => route.isFirst);
@@ -105,14 +104,15 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             LoginButton(
-              text: "Sign in",
+              text: "Sign up",
               clickCallBack: () {
                 if (_formkey.currentState!.validate()) {
-                  AuthManager.instance.loginExistingUserWithEmailPassword(
+                  AuthManager.instance.createUserWithEmailPassword(
                       context: context,
                       emailAddress: emailTextController.text,
                       password: passwordTextController.text);
                   setState(() {});
+                  
                   if (AuthManager.instance.isSignedIn) {
                     Navigator.of(context).pop();
                     Navigator.push(
@@ -126,23 +126,6 @@ class _LoginPageState extends State<LoginPage> {
                 }
               },
             ),
-            Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("Don't have an account?"),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          const SignInPage(),
-                    ),
-                  );
-                },
-                child: const Text("Sign up here"),
-              )
-            ],
-          ),
           ],
         ),
       ),

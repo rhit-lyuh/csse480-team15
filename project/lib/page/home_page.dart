@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:project/component/list_page_drawer.dart';
 import 'package:project/component/profile_card.dart';
+import 'package:project/component/profile_dialog.dart';
 import 'package:project/managers/auth_manager.dart';
 import 'package:project/managers/student_data_manager.dart';
 
@@ -17,6 +18,11 @@ class _HomePageState extends State<HomePage> {
 
   StreamSubscription? _studentDataSubscription;
   
+  final usernameTextController = TextEditingController();
+  final yearTextController = TextEditingController();
+  final majorTextController = TextEditingController();
+  final minorTextController = TextEditingController();
+  final academicStandingtextController = TextEditingController();
 
   @override
   void initState() {
@@ -27,10 +33,10 @@ class _HomePageState extends State<HomePage> {
           
         });
         print("username: ${StudentDataDocumentManager.instance.displayName}");
-        print("username: ${StudentDataDocumentManager.instance.year}");
-        print("username: ${StudentDataDocumentManager.instance.academic}");
-        print("username: ${StudentDataDocumentManager.instance.major}");
-        print("username: ${StudentDataDocumentManager.instance.minor}");
+        print("year: ${StudentDataDocumentManager.instance.year}");
+        print("academic: ${StudentDataDocumentManager.instance.academic}");
+        print("major: ${StudentDataDocumentManager.instance.major}");
+        print("minor: ${StudentDataDocumentManager.instance.minor}");
       }
     );
     super.initState();
@@ -65,11 +71,60 @@ class _HomePageState extends State<HomePage> {
               year: StudentDataDocumentManager.instance.year, 
               major: StudentDataDocumentManager.instance.major, 
               minor: StudentDataDocumentManager.instance.minor, 
-              academic: StudentDataDocumentManager.instance.academic,
-            )
+              academic: StudentDataDocumentManager.instance.academic, 
+              onPressedCallback: () { 
+                showEditProfileDialog();
+              },
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  void showEditProfileDialog() {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        usernameTextController.text = StudentDataDocumentManager.instance.displayName;
+        yearTextController.text = StudentDataDocumentManager.instance.year;
+        majorTextController.text = StudentDataDocumentManager.instance.major;
+        minorTextController.text = StudentDataDocumentManager.instance.minor;
+        academicStandingtextController.text = StudentDataDocumentManager.instance.academic;
+        return ProfileDialog(
+          usernameTextController: usernameTextController, 
+          yearTextController: yearTextController, 
+          majorTextController: majorTextController, 
+          minorTextController: minorTextController, 
+          academicStandingtextController: academicStandingtextController, 
+          positiveActionCallback: () { 
+            StudentDataDocumentManager.instance.update(
+              username: usernameTextController.text, 
+              major: majorTextController.text, 
+              minor: minorTextController.text, 
+              year: yearTextController.text, 
+              academicStanding: academicStandingtextController.text
+              );
+          }, 
+          onYearSelectedCallback: (String? value) { 
+            setState(() {
+              yearTextController.text = value!;
+            });
+          }, 
+          onMajorSelectedCallback: (String? value) {
+            setState(() {
+              majorTextController.text = value!;
+            });
+          }, 
+          onMinorSelectedCallback: (String? value) {
+            setState(() {
+              minorTextController.text = value!;
+            });
+          }, 
+          onAcademicSelectedCallback: (String? value) {
+            academicStandingtextController.text = value!;
+          },);
+      }
     );
   }
 }

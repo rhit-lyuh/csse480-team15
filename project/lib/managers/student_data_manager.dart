@@ -28,6 +28,26 @@ class StudentDataDocumentManager {
   void stopListening(StreamSubscription? subscription) {
     subscription?.cancel();
   }
+  
+  void update({
+    required String username, 
+    required String major, 
+    required String minor,
+    required String year,
+    required String academicStanding}
+    ) {
+      final updateMap = {
+        kStudentDataDisplayName: username,
+        kStudentDataMajor: major,
+        kStudentDataMinor: minor,
+        kStudentDataYear: year,
+      };
+      _ref.doc(latestStudentData!.documentId!).update(updateMap).then((_) {
+      print("Finished updating the document");
+    }).catchError((error) {
+      print("There was an error adding the document $error");
+    });
+    }
 
   void clearLatest() {
     latestStudentData = null;
