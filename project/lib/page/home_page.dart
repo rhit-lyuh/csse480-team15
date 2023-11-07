@@ -7,6 +7,7 @@ import 'package:project/component/profile_card.dart';
 import 'package:project/component/profile_dialog.dart';
 import 'package:project/managers/auth_manager.dart';
 import 'package:project/managers/student_data_manager.dart';
+import 'package:project/managers/user_data_document_manager.dart';
 import 'package:project/model/student_data.dart';
 
 class HomePage extends StatefulWidget {
@@ -48,9 +49,14 @@ class _HomePageState extends State<HomePage> {
     );
 
     _loginUniqueKey = AuthManager.instance.addLoginObserver(() {
-            StudentDataDocumentManager.instance.maybeAddNewUser();
-          setState(() {});
-        });
+      if (StudentDataDocumentManager.instance.hasDisplayName) {
+        
+      } else {
+        StudentDataDocumentManager.instance.maybeAddNewUser();
+      }
+        
+      setState(() {});
+    });
 
     _logoutUniqueKey = AuthManager.instance.addLogoutObserver(() {
       setState(() {
@@ -129,7 +135,7 @@ class _HomePageState extends State<HomePage> {
               minor: minorTextController.text, 
               year: yearTextController.text, 
               academicStanding: academicStandingtextController.text
-              );
+            );
           }, 
           onYearSelectedCallback: (String? value) { 
             setState(() {
@@ -147,7 +153,9 @@ class _HomePageState extends State<HomePage> {
             });
           }, 
           onAcademicSelectedCallback: (String? value) {
-            academicStandingtextController.text = value!;
+            setState(() {
+              academicStandingtextController.text = value!;
+            });
           },);
       }
     );

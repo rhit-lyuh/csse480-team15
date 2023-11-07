@@ -58,7 +58,7 @@ class StudentDataDocumentManager {
         kStudentDataMajor: major,
         kStudentDataMinor: minor,
         kStudentDataYear: year,
-        kStudentDataAcademic: academic
+        kStudentDataAcademic: academicStanding
       };
       _ref.doc(latestStudentData!.documentId!).update(updateMap).then((_) {
       print("Finished updating the document");
