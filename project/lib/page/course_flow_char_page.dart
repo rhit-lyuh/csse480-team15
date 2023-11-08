@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:project/component/list_page_drawer.dart';
 import 'package:project/component/year_list.dart';
 import 'package:project/managers/auth_manager.dart';
-import 'package:project/managers/user_data_collection_maanager.dart';
+import 'package:project/managers/course_collection_manager.dart';
+import 'package:project/managers/user_data_collection_manager.dart';
 import 'package:project/managers/user_data_document_manager.dart';
 
 class CourseFlowChartPage extends StatefulWidget {
@@ -69,6 +70,8 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
   late var newCourseNumberEditingController = TextEditingController();
   late var newCourseDepartmentEditingController = TextEditingController();
   StreamSubscription? userDataSubscription;
+  StreamSubscription? oneUserDataSubscription;
+  StreamSubscription? courseSubscription;
   UniqueKey? _loginUniqueKey;
   UniqueKey? _logoutUniqueKey;
 
@@ -78,12 +81,15 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
         UserDatasCollectionManager.instance.startListening(() {
       setState(() {});
     });
+    oneUserDataSubscription = UserDataDocumentManager.instance.startListening(
+        documentId: AuthManager.instance.uid,
+        observer: () {
+          setState(() {});
+        });
+    courseSubscription = CoursesCollectionManager.instance.startListening(() {
+      setState(() {});
+    });
     _loginUniqueKey = AuthManager.instance.addLoginObserver(() {
-      if (UserDataDocumentManager.instance.hasCourseTaking) {
-        courseList = UserDataDocumentManager.instance.courseTaking;
-      } else {
-        UserDatasCollectionManager.instance.maybeAddNewUser(courseList);
-      }
       setState(() {});
     });
     _logoutUniqueKey = AuthManager.instance.addLogoutObserver(() {
@@ -95,6 +101,8 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
   @override
   void dispose() {
     UserDatasCollectionManager.instance.stopListening(userDataSubscription);
+    UserDataDocumentManager.instance.stopListening(oneUserDataSubscription);
+    CoursesCollectionManager.instance.stopListening(courseSubscription);
     AuthManager.instance.removeObserver(_loginUniqueKey);
     AuthManager.instance.removeObserver(_logoutUniqueKey);
     newCourseNumberEditingController.dispose();
@@ -104,6 +112,12 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (UserDatasCollectionManager.instance.hasUser(AuthManager.instance.uid)) {
+      courseList = UserDataDocumentManager.instance.courseTaking;
+    } else {
+      UserDatasCollectionManager.instance.maybeAddNewUser(courseList);
+      setState(() {});
+    }
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -197,18 +211,19 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
                                 break;
                               }
                             }
-                            UserDatasCollectionManager.instance
-                                .update(courseList);
+                            UserDataDocumentManager.instance.update(courseList);
                           });
                         },
                         courseCardDeleteCallBack: ({required String course}) {
                           setState(() {
                             courseList.remove(course);
+                            UserDataDocumentManager.instance.update(courseList);
                           });
                         },
                         courseCardUndoCallBack: ({required String course}) {
                           setState(() {
                             courseList.add(course);
+                            UserDataDocumentManager.instance.update(courseList);
                           });
                         },
                       ),
@@ -263,9 +278,10 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
                 TextField(
                   controller: newCourseDepartmentEditingController,
                   decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Enter a course department',
-                      hintText: 'e.g. CSSE, MA .etc'),
+                    border: OutlineInputBorder(),
+                    labelText: 'Enter a course department',
+                    hintText: 'e.g. CSSE, MA .etc',
+                  ),
                 ),
                 const SizedBox(
                   height: 20.0,
@@ -339,7 +355,28 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
                     String courseToAdd =
                         "${newCourseDepartmentEditingController.text.toUpperCase()} ${newCourseNumberEditingController.text},$quarter";
                     courseList.add(courseToAdd);
-                    UserDataDocumentManager.instance.update(courseList);
+                    if (CoursesCollectionManager.instance.hasCourse(
+                        "${newCourseDepartmentEditingController.text.toUpperCase()} ${newCourseNumberEditingController.text}")) {
+                      UserDataDocumentManager.instance.update(courseList);
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text("Invalid Course"),
+                              content: const Text("Course does not exist."),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text("OK"),
+                                ),
+                              ],
+                            );
+                          });
+                    }
+
                     newCourseDepartmentEditingController.text = '';
                     newCourseNumberEditingController.text = '';
                   });

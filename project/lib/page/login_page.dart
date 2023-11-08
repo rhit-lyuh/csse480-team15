@@ -21,7 +21,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     emailTextController.text = "tba@rose-hulman.edu";
     passwordTextController.text = "123456";
     _loginUniqueKey = AuthManager.instance.addLoginObserver(() {
@@ -77,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                       !EmailValidator.validate(value)) {
                     return "Please enter a valid email address";
                   }
+                  return null;
                 },
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -127,22 +127,21 @@ class _LoginPageState extends State<LoginPage> {
               },
             ),
             Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("Don't have an account?"),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          const SignInPage(),
-                    ),
-                  );
-                },
-                child: const Text("Sign up here"),
-              )
-            ],
-          ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Don't have an account?"),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SignInPage(),
+                      ),
+                    );
+                  },
+                  child: const Text("Sign up here"),
+                )
+              ],
+            ),
           ],
         ),
       ),

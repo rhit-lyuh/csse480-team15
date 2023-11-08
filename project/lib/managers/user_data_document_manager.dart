@@ -44,5 +44,5 @@ class UserDataDocumentManager {
   String get major => latestUserData?.major ?? "";
   int get startYear => latestUserData?.startYear ?? -1;
   List<String> get courseTaking => latestUserData?.courseTaking ?? [];
-  bool get hasCourseTaking => latestUserData?.courseTaking == [];
+  bool get hasCourseTaking => latestUserData?.courseTaking != [];
 }

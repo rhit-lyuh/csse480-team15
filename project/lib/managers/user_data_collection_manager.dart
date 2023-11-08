@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:project/managers/auth_manager.dart';
 import 'package:project/model/user_data.dart';
 
@@ -19,7 +18,6 @@ class UserDatasCollectionManager {
   StreamSubscription startListening(Function observer) {
     return _ref.snapshots().listen((QuerySnapshot querySnapshot) {
       latestUserDatas = querySnapshot.docs.map((doc) {
-        print(doc.id);
         return UserData.from(doc);
       }).toList();
       observer();
@@ -49,24 +47,19 @@ class UserDatasCollectionManager {
   void createNewUser(List<String> courseList) {
     Map<String, Object> initialUserData = {};
     initialUserData[kUserDataMajor] = 'CSSE';
-    initialUserData[kUserDataStartYear] = '2023';
+    initialUserData[kUserDataStartYear] = 2023;
     initialUserData[kUserDataCourseTaking] = courseList;
     _ref.doc(AuthManager.instance.uid).set(initialUserData).catchError((error) {
       print("Error setting the document $error");
     });
   }
 
-  void update(List<String> courseList) {
-    for (int i = 0; i < latestUserDatas.length; i++) {
-      if (latestUserDatas[i].documentId == AuthManager.instance.uid) {
-        _ref.doc(latestUserDatas[i].documentId!).update({
-          kUserDataCourseTaking: courseList,
-        }).then((_) {
-          print("Finished updating the document");
-        }).catchError((error) {
-          print("There was an error adding the document $error");
-        });
+  bool hasUser(String uid) {
+    for (var u in latestUserDatas) {
+      if (u.documentId == uid) {
+        return true;
       }
     }
+    return false;
   }
 }

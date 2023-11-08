@@ -2,7 +2,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:project/component/login_button.dart';
 import 'package:project/managers/auth_manager.dart';
-import 'package:project/managers/student_data_manager.dart';
 import 'package:project/page/home_page.dart';
 
 class SignInPage extends StatefulWidget {
@@ -21,8 +20,6 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     _loginUniqueKey = AuthManager.instance.addLoginObserver(() {
       print("called my login observer");
       Navigator.of(context).popUntil((route) => route.isFirst);
@@ -76,6 +73,7 @@ class _SignInPageState extends State<SignInPage> {
                       !EmailValidator.validate(value)) {
                     return "Please enter a valid email address";
                   }
+                  return null;
                 },
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -113,7 +111,7 @@ class _SignInPageState extends State<SignInPage> {
                       password: passwordTextController.text);
                   // StudentDataDocumentManager.instance.createNeswUser();
                   setState(() {});
-                  
+
                   if (AuthManager.instance.isSignedIn) {
                     Navigator.of(context).pop();
                     Navigator.push(
