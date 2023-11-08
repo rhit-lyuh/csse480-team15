@@ -291,6 +291,7 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Enter a course number',
+                    hintText: 'e.g. 111, 112, etc.',
                   ),
                 ),
                 const SizedBox(
@@ -342,29 +343,12 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
                 onPressed: () {
                   Navigator.pop(context);
                   setState(() {
-                    int year = int.parse(dropdownValueYear);
-                    int season = 0;
-                    if (dropdownValueQuarter == "Fall") {
-                      season = 1;
-                    } else if (dropdownValueQuarter == "Winter") {
-                      season = 2;
-                    } else if (dropdownValueQuarter == "Spring") {
-                      season = 3;
-                    }
-                    int quarter = (year - 1) * 3 + season;
-                    String courseToAdd =
-                        "${newCourseDepartmentEditingController.text.toUpperCase()} ${newCourseNumberEditingController.text},$quarter";
-                    courseList.add(courseToAdd);
-                    if (CoursesCollectionManager.instance.hasCourse(
-                        "${newCourseDepartmentEditingController.text.toUpperCase()} ${newCourseNumberEditingController.text}")) {
-                      UserDataDocumentManager.instance.update(courseList);
-                    } else {
+                    if (dropdownValueYear == "Select a Year") {
                       showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text("Invalid Course"),
-                              content: const Text("Course does not exist."),
+                              content: const Text("Please Select a Year."),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -375,6 +359,57 @@ class _CourseFlowChartPageState extends State<CourseFlowChartPage> {
                               ],
                             );
                           });
+                    } else if (dropdownValueQuarter == "Select a Quarter") {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: const Text("Please Select a Quarter."),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text("OK"),
+                                ),
+                              ],
+                            );
+                          });
+                    } else {
+                      int year = int.parse(dropdownValueYear);
+                      int season = 0;
+                      if (dropdownValueQuarter == "Fall") {
+                        season = 1;
+                      } else if (dropdownValueQuarter == "Winter") {
+                        season = 2;
+                      } else if (dropdownValueQuarter == "Spring") {
+                        season = 3;
+                      }
+                      int quarter = (year - 1) * 3 + season;
+                      String courseToAdd =
+                          "${newCourseDepartmentEditingController.text.toUpperCase()} ${newCourseNumberEditingController.text},$quarter";
+                      courseList.add(courseToAdd);
+                      if (CoursesCollectionManager.instance.hasCourse(
+                          "${newCourseDepartmentEditingController.text.toUpperCase()} ${newCourseNumberEditingController.text}")) {
+                        UserDataDocumentManager.instance.update(courseList);
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Invalid Course"),
+                                content: const Text("Course does not exist."),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text("OK"),
+                                  ),
+                                ],
+                              );
+                            });
+                      }
                     }
 
                     newCourseDepartmentEditingController.text = '';
